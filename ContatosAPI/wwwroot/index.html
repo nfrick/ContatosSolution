@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CONTATOS</title>
+    <link rel="stylesheet"
+          type="text/css"
+          href="styles.css" />
+</head>
+<body>
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 420px; float: left;">
+        <img src="logo.png" alt="project logo" />
+        <h1>CONTATOS</h1>
+    </div>
+    <div style="margin-left: 440px;">
+        <div id="addContato">
+            <form class="form-style" action="javascript:void(0);" method="POST" onsubmit="addContato()">
+                <input id="add-id" type="hidden" value ="0">
+                <ul>
+                    <li><input type="text" id="add-nome" class="field-style field-full align-none" placeholder="Nome"></li>
+                    <li><input type="text" id="add-telefone" class="field-style field-full align-none" placeholder="Telefone"></li>
+                    <li><input type="text" id="add-aniversario" class="field-style field-full align-none" placeholder="Aniversário"></li>
+                    <li><input type="submit" value="Adicionar"></li>
+                </ul>
+            </form>
+        </div>
+        <div id="editContato">
+            <form class="form-style editForm">
+                <input type="hidden" id="edit-id">
+                <ul>
+                    <li><input type="text" id="edit-nome" class="field-style field-full align-none"></li>
+                    <li><input type="text" id="edit-telefone" class="field-style field-full align-none"></li>
+                    <li><input type="text" id="edit-aniversario" class="field-style field-full align-none"></li>
+                    <li>
+                        <div style="width: 100%; overflow: hidden;">
+                            <div style="width: 80px; float: left;">
+                                <input type="submit" value="Salvar" class="align-left">
+                            </div>
+                            <div style="width: 80px; float: left;">
+                                <a onclick="closeInput()" aria-label="Close" class="align-right">Cancelar</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+    
+<div style="margin: 30px">
+    <h4 id="counter"></h4>
+</div>
+
+
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Aniversário</th>
+        <th colspan="2"></th>
+    </tr>
+    <tbody id="contatos"></tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="contatos.js"></script>
+</body>
+</html>
