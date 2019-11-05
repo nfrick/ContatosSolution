@@ -3,7 +3,7 @@
 namespace ContatosAPI.Models {
     public class ContatoModel {
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         //[Required(ErrorMessage = "Nome é obrigatório")]
         //[MinLength(5, ErrorMessage = "Nome deve ter entre 5 e 20 caracteres")]

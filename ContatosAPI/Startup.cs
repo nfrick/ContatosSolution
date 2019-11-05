@@ -1,4 +1,5 @@
 ﻿using ContatosAPI.Models;
+using ContatosAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,19 @@ namespace ContatosAPI {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            //services.AddDbContext<ContatosContext>(opt =>
+            //    opt.UseInMemoryDatabase("Contatos"));
             services.AddDbContext<ContatosContext>(opt =>
-                opt.UseInMemoryDatabase("Contatos"));
-            services.AddDbContext<ContatosContext>(opt =>
-                opt.UseSqlServer("Contatos"));
+                opt.UseSqlServer(Configuration.GetConnectionString("Connection1")));
+            services.AddTransient<IContatosRepository, ContatosRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            /*  
+                https://stackoverflow.com/questions/38138100/addtransient-addscoped-and-addsingleton-services-differences
+                Singleton which creates a single instance throughout the application. It creates the instance for the first time and reuses the same object in the all calls.
+                Scoped lifetime services are created once per request within the scope. It is equivalent to Singleton in the current scope. eg. in MVC it creates 1 instance per each http request but uses the same instance in the other calls within the same web request.
+                Transient lifetime services are created each time they are requested. This lifetime works best for lightweight, stateless services.
+             */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
