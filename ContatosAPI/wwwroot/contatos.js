@@ -121,7 +121,7 @@ $(".editForm").on("submit", function () {
             alert(`Erro ao salvar alteração: ${errorThrown}`);
         },
         success: function (result) {
-            alert("Contato alterado com sucesso");
+            // alert("Contato alterado com sucesso");
             getData();
         }
     });

@@ -1,23 +1,20 @@
 ﻿using ContatosAPI.Models;
 using ContatosAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ContatosAPI.Controllers {
-
-    // Controller síncrono para Contatos
     [Route("api/[controller]")]
     [ApiController]
-    public class ContatoController : ControllerBase {
-        private readonly IContatosRepository _repo;
+    public class ContatoAsyncController : ControllerBase {
+        private readonly IContatosRepositoryAsync _repo;
 
         /// <summary>
         ///  Constructor
         /// </summary>
         /// <param name="repo"></param>
-        public ContatoController(IContatosRepository repo) {
+        public ContatoAsyncController(IContatosRepositoryAsync repo) {
             _repo = repo;
         }
 
@@ -26,8 +23,8 @@ namespace ContatosAPI.Controllers {
         /// </summary>
         /// <returns>IEnumerable&lt;ContatoModel&gt;</returns>
         [HttpGet]
-        public IEnumerable GetAll() {
-            return _repo.GetSorted();
+        public async Task<IEnumerable> GetAll() {
+            return await _repo.GetSorted();
         }
 
         /// <summary>
@@ -36,13 +33,11 @@ namespace ContatosAPI.Controllers {
         /// <param name="id">integer</param>
         /// <returns>ContatoModel</returns>
         [HttpGet("{id}")]
-        public ActionResult<ContatoModel> GetById(int id) {
-            var contato = _repo.GetById(id);
+        public async Task<ActionResult<ContatoModel>> GetById(int id) {
+            var contato = await _repo.GetById(id);
 
-            if (contato == null) {
+            if (contato == null)
                 return NotFound();
-            }
-
             return new ObjectResult(contato);
         }
 
@@ -53,8 +48,8 @@ namespace ContatosAPI.Controllers {
         /// <returns>ContatoModel</returns>
         //  NÃO FUNCIONA
         //[HttpGet, Route("GetByPhone/{fone:string}")]
-        //public IEnumerable<ContatoModel> GetByPhone(string fone) {
-        //    return _repo.GetByPhone(fone);
+        //public async Task<IEnumerable> GetByPhone(string fone) {
+        //    return await _repo.GetByPhone(fone);
         //}
 
         /// <summary>
@@ -63,9 +58,8 @@ namespace ContatosAPI.Controllers {
         /// <param name="mes">int</param>
         /// <returns>ContatoModel</returns>
         [HttpGet, Route("GetByMonth/{mes}")]
-        public IEnumerable<ContatoModel> GetByMonth(int mes) {
-            var contatos = _repo.AniversariantesDoMes(mes);
-                return contatos;
+        public async Task<IEnumerable> GetByMonth(int mes) {
+            return await _repo.AniversariantesDoMes(mes);
         }
 
         /// <summary>
@@ -74,8 +68,8 @@ namespace ContatosAPI.Controllers {
         /// <param name="contato">ContatoModel - objeto contendo dados do contato</param>
         /// <returns>ContatoModel - contato criado</returns>
         [HttpPost]
-        public ActionResult<ContatoModel> Add([FromBody]ContatoModel contato) {
-            _repo.Create(contato);
+        public async Task<ActionResult<ContatoModel>> Add([FromBody]ContatoModel contato) {
+            await _repo.Create(contato);
             return CreatedAtAction(nameof(GetById), new { id = contato.Id }, contato);
         }
 
@@ -85,11 +79,11 @@ namespace ContatosAPI.Controllers {
         /// <param name="id">integer</param>
         /// <param name="contato">ContatoModel</param>
         [HttpPut("{id}")]
-        public ActionResult<ContatoModel> Update(int id, [FromBody]ContatoModel contato) {
+        public async Task<ActionResult<ContatoModel>> Update(int id, [FromBody]ContatoModel contato) {
             if (id != contato.Id) {
                 return BadRequest();
             }
-            _repo.Update(id, contato);
+            await _repo.Update(id, contato);
             return NoContent();
         }
 
